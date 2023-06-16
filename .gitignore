@@ -5,3 +5,4 @@ speech.wav
 __pycache__
 settings.py
 response.json
+test.py

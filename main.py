@@ -2,6 +2,7 @@ import json
 import os
 import requests
 import settings
+import test
 
 
 def text_to_speech(text='Привет друг!'):
@@ -12,10 +13,11 @@ def text_to_speech(text='Привет друг!'):
     payload = {
         'providers': 'lovoai',
         'language': 'ru-RU',
-        'option': 'FEMALE',
-        'lovoai': 'ru-RU_Anna Kravchuk',
+        'option': f'{settings.Sex}',
+        'lovoai': f'{settings.Voice}',
         'text': f'{text}'
     }
+
 
     response = requests.post(url, json=payload, headers=headers)
     result = json.loads(response.text)
