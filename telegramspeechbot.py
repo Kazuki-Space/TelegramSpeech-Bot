@@ -11,7 +11,7 @@ bot = Bot(token=TG_TOKEN)
 dp = Dispatcher(bot)
 
 StartButton = KeyboardButton("/help")
-Normal_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(StartButton)
+Normal_kb = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True).add(StartButton)
 
 
 @dp.message_handler(Command("start"))
