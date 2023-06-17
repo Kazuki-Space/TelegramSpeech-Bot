@@ -12,7 +12,7 @@ dp = Dispatcher(bot)
 
 StartButton = KeyboardButton("/help")
 SettingsButton = KeyboardButton("/settings")
-Normal_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(StartButton, SettingsButton)
+main_kb = ReplyKeyboardMarkup(resize_keyboard=True).add(StartButton, SettingsButton)
 
 Female_btn = InlineKeyboardButton('Женский', callback_data='FEMALE')
 Male_btn = InlineKeyboardButton('Мужской', callback_data='MALE')
@@ -59,7 +59,7 @@ async def process_command_2(callback: CallbackQuery):
 async def cmd_start(message: types.Message):
     await message.reply(
         "Привет! Это бот для конвертации текста в голосовое сообщение.\nНажмите на кнопку для того чтобы узнать как пользоваться ботом\nАвтор: @hkk89",
-        reply_markup=Normal_kb
+        reply_markup=main_kb
     )
 
 
@@ -72,13 +72,16 @@ async def cmd_help(message: types.Message):
 
 @dp.message_handler(content_types='text')
 async def MainButton(message: types.Message):
-    await message.reply("Текст получен")
+    await bot.send_message(message.from_user.id, "Текст получен")
 
-    main.text_to_speech(message.text)
+    try:
+        main.text_to_speech(message.text)
 
-    voice = types.InputFile('speech.wav')
-    await bot.send_voice(message.from_user.id, voice, caption="Ответ от бота")
+        voice = types.InputFile('speech.wav')
+        await bot.send_voice(message.from_user.id, voice, caption="Ответ от бота", reply_markup=main_kb)
 
+    except AttributeError:
+        await message.reply("Бот не принял данный текст")
 
 if __name__ == "__main__":
     try:
